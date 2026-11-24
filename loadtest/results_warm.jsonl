@@ -1,0 +1,1 @@
+{"concurrency": 8, "warm_cache": true, "requests": 11835, "errors": 0, "rps": 591.8, "p50_ms": 5, "p95_ms": 17, "p99_ms": 52}

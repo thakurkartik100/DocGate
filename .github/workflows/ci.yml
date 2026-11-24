@@ -1,0 +1,19 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test-and-eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -e ".[dev]"
+      - run: pytest -q
+      - uses: actions/cache@v4
+        with: { path: ~/.cache/huggingface, key: hf-models-v1 }
+      # The quality gate: the PR fails if retrieval metrics regress below eval/run_eval.py GATES.
+      - run: python eval/run_eval.py --gate
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: eval-results, path: eval/results.json }

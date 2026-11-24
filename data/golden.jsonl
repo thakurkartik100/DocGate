@@ -1,0 +1,88 @@
+{"q": "How do I convert a Python object into a JSON string?", "relevant": ["json.dumps"], "answerable": true}
+{"q": "parse a JSON string into a dictionary", "relevant": ["json.loads"], "answerable": true}
+{"q": "read JSON data from an open file object", "relevant": ["json.load"], "answerable": true}
+{"q": "replace every occurrence of a regex pattern inside a string", "relevant": ["re.sub"], "answerable": true}
+{"q": "split a string wherever a regular expression matches", "relevant": ["re.split"], "answerable": true}
+{"q": "get all non-overlapping matches of a pattern as a list", "relevant": ["re.findall", "re.finditer"], "answerable": true}
+{"q": "precompile a regular expression so I can reuse it", "relevant": ["re.compile"], "answerable": true}
+{"q": "check whether a pattern matches at the very beginning of a string", "relevant": ["re.match"], "answerable": true}
+{"q": "treat several iterables as one long sequence, one after another", "relevant": ["itertools.chain"], "answerable": true}
+{"q": "every possible ordering of the items in an iterable", "relevant": ["itertools.permutations"], "answerable": true}
+{"q": "cartesian product of several input iterables", "relevant": ["itertools.product"], "answerable": true}
+{"q": "group consecutive items that share the same key", "relevant": ["itertools.groupby"], "answerable": true}
+{"q": "tally how many times each element appears", "relevant": ["collections.Counter"], "answerable": true}
+{"q": "dictionary that supplies a default value for keys that are missing", "relevant": ["collections.defaultdict"], "answerable": true}
+{"q": "queue you can append to and pop from both ends efficiently", "relevant": ["collections.deque"], "answerable": true}
+{"q": "memoize a function with least-recently-used eviction", "relevant": ["functools.lru_cache"], "answerable": true}
+{"q": "freeze some arguments of a function ahead of time", "relevant": ["functools.partial"], "answerable": true}
+{"q": "fold a sequence into a single value by applying a two-argument function cumulatively", "relevant": ["functools.reduce"], "answerable": true}
+{"q": "read the whole contents of a file as text from a path object", "relevant": ["pathlib.Path.read_text"], "answerable": true}
+{"q": "walk a directory tree recursively for files matching a wildcard", "relevant": ["pathlib.Path.rglob", "pathlib.Path.glob"], "answerable": true}
+{"q": "create a directory including missing parent directories", "relevant": ["pathlib.Path.mkdir"], "answerable": true}
+{"q": "what is the current local date and time", "relevant": ["datetime.datetime.now"], "answerable": true}
+{"q": "turn a date string into a datetime using a format specification", "relevant": ["datetime.datetime.strptime"], "answerable": true}
+{"q": "execute an external program and capture what it prints", "relevant": ["subprocess.run", "subprocess.check_output"], "answerable": true}
+{"q": "send log messages to a file with a chosen level and format", "relevant": ["logging.basicConfig"], "answerable": true}
+{"q": "define a command-line flag for my script", "relevant": ["argparse.ArgumentParser.add_argument"], "answerable": true}
+{"q": "get the n smallest elements without fully sorting the data", "relevant": ["heapq.nsmallest"], "answerable": true}
+{"q": "add an item to a priority queue implemented as a list", "relevant": ["heapq.heappush"], "answerable": true}
+{"q": "insert a value into an already sorted list while keeping it sorted", "relevant": ["bisect.insort", "bisect.insort_left"], "answerable": true}
+{"q": "recursively copy an entire directory", "relevant": ["shutil.copytree"], "answerable": true}
+{"q": "delete a folder and everything inside it", "relevant": ["shutil.rmtree"], "answerable": true}
+{"q": "relocate a file or directory to a different place", "relevant": ["shutil.move"], "answerable": true}
+{"q": "iterate over the rows of a CSV file as lists of strings", "relevant": ["csv.reader"], "answerable": true}
+{"q": "open a connection to a SQLite database file", "relevant": ["sqlite3.connect"], "answerable": true}
+{"q": "split a URL into scheme, host, path and query parts", "relevant": ["urllib.parse.urlparse"], "answerable": true}
+{"q": "percent-encode text so it is safe inside a URL", "relevant": ["urllib.parse.quote"], "answerable": true}
+{"q": "compute a SHA-256 digest of some bytes", "relevant": ["hashlib.sha256"], "answerable": true}
+{"q": "pick one random item from a non-empty sequence", "relevant": ["random.choice"], "answerable": true}
+{"q": "average of a list of numbers", "relevant": ["statistics.mean"], "answerable": true}
+{"q": "sample standard deviation of data", "relevant": ["statistics.stdev"], "answerable": true}
+{"q": "break a long paragraph into lines of a maximum width", "relevant": ["textwrap.wrap"], "answerable": true}
+{"q": "file that is removed automatically once it is closed", "relevant": ["tempfile.NamedTemporaryFile", "tempfile.TemporaryFile"], "answerable": true}
+{"q": "make sure only one thread at a time enters a critical section", "relevant": ["threading.Lock"], "answerable": true}
+{"q": "thread-safe first-in first-out container for passing work between threads", "relevant": ["queue.Queue"], "answerable": true}
+{"q": "unpack every member of a zip archive into a folder", "relevant": ["zipfile.ZipFile.extractall"], "answerable": true}
+{"q": "compress a bytes object with gzip", "relevant": ["gzip.compress"], "answerable": true}
+{"q": "largest integer dividing two numbers evenly", "relevant": ["math.gcd"], "answerable": true}
+{"q": "make a copy of a nested object so inner objects are not shared", "relevant": ["copy.deepcopy"], "answerable": true}
+{"q": "let the class pick values automatically for enumeration members", "relevant": ["enum.auto"], "answerable": true}
+{"q": "generate __init__ and __repr__ for a class from annotated fields", "relevant": ["dataclasses.dataclass"], "answerable": true}
+{"q": "size of a file in bytes from its path", "relevant": ["os.path.getsize"], "answerable": true}
+{"q": "ignore a specific exception inside a with block", "relevant": ["contextlib.suppress"], "answerable": true}
+{"q": "find file names matching a shell-style wildcard", "relevant": ["glob.glob"], "answerable": true}
+{"q": "serialize an arbitrary object into bytes", "relevant": ["pickle.dumps"], "answerable": true}
+{"q": "encode binary data as base64 text", "relevant": ["base64.b64encode"], "answerable": true}
+{"q": "create a universally unique identifier at random", "relevant": ["uuid.uuid4"], "answerable": true}
+{"q": "generate an unguessable token suitable for password resets", "relevant": ["secrets.token_hex", "secrets.token_urlsafe"], "answerable": true}
+{"q": "start an event loop and run a coroutine to completion", "relevant": ["asyncio.run"], "answerable": true}
+{"q": "run several awaitables concurrently and collect their results", "relevant": ["asyncio.gather"], "answerable": true}
+{"q": "schedule a callable on a pool of worker threads", "relevant": ["concurrent.futures.ThreadPoolExecutor.submit"], "answerable": true}
+{"q": "convert Python values into packed binary bytes", "relevant": ["struct.pack"], "answerable": true}
+{"q": "show line-by-line differences between two texts in diff format", "relevant": ["difflib.unified_diff"], "answerable": true}
+{"q": "print a deeply nested data structure in a readable layout", "relevant": ["pprint.pprint"], "answerable": true}
+{"q": "print the traceback of the exception currently being handled", "relevant": ["traceback.print_exc"], "answerable": true}
+{"q": "tell the user about a deprecated feature at runtime", "relevant": ["warnings.warn"], "answerable": true}
+{"q": "split a command line string the way a Unix shell would", "relevant": ["shlex.split"], "answerable": true}
+{"q": "convert special characters like angle brackets into HTML entities", "relevant": ["html.escape"], "answerable": true}
+{"q": "turn a string into an IPv4 or IPv6 address object", "relevant": ["ipaddress.ip_address"], "answerable": true}
+{"q": "temporarily replace an object with a mock during a unit test", "relevant": ["unittest.mock.patch"], "answerable": true}
+{"q": "find out the parameters a callable accepts", "relevant": ["inspect.signature"], "answerable": true}
+{"q": "load settings from an INI style configuration file", "relevant": ["configparser.ConfigParser.read"], "answerable": true}
+{"q": "run my function when the process receives a signal", "relevant": ["signal.signal"], "answerable": true}
+{"q": "how many days are in a given month of a year", "relevant": ["calendar.monthrange"], "answerable": true}
+{"q": "What is the capital of France?", "relevant": [], "answerable": false}
+{"q": "how do I train a neural network with PyTorch", "relevant": [], "answerable": false}
+{"q": "best pizza recipe", "relevant": [], "answerable": false}
+{"q": "how to center a div in CSS", "relevant": [], "answerable": false}
+{"q": "weather in Pune today", "relevant": [], "answerable": false}
+{"q": "configure a Kubernetes ingress controller", "relevant": [], "answerable": false}
+{"q": "explain how the stock market works", "relevant": [], "answerable": false}
+{"q": "write a React component with hooks", "relevant": [], "answerable": false}
+{"q": "merge two pandas DataFrames on a column", "relevant": [], "answerable": false}
+{"q": "interactive git rebase", "relevant": [], "answerable": false}
+{"q": "docker compose networking between services", "relevant": [], "answerable": false}
+{"q": "enable GPU support in TensorFlow", "relevant": [], "answerable": false}
+{"q": "invert a matrix with numpy", "relevant": [], "answerable": false}
+{"q": "SQL window functions row_number", "relevant": [], "answerable": false}
+{"q": "set the timeout of an AWS Lambda function", "relevant": [], "answerable": false}

@@ -1,0 +1,292 @@
+{
+  "n_answerable": 73,
+  "n_unanswerable": 15,
+  "retrieval": {
+    "bm25": {
+      "recall@1": 0.164,
+      "recall@5": 0.411,
+      "recall@10": 0.575,
+      "mrr@10": 0.282,
+      "ndcg@10": 0.35
+    },
+    "dense": {
+      "recall@1": 0.233,
+      "recall@5": 0.658,
+      "recall@10": 0.753,
+      "mrr@10": 0.416,
+      "ndcg@10": 0.5
+    },
+    "hybrid": {
+      "recall@1": 0.205,
+      "recall@5": 0.671,
+      "recall@10": 0.836,
+      "mrr@10": 0.414,
+      "ndcg@10": 0.518
+    },
+    "hybrid_rerank": {
+      "recall@1": 0.37,
+      "recall@5": 0.712,
+      "recall@10": 0.836,
+      "mrr@10": 0.502,
+      "ndcg@10": 0.578
+    }
+  },
+  "latency": {
+    "bm25": {
+      "p50_ms": 2.5,
+      "p95_ms": 4.0
+    },
+    "dense": {
+      "p50_ms": 7.9,
+      "p95_ms": 8.9
+    },
+    "hybrid": {
+      "p50_ms": 10.8,
+      "p95_ms": 13.8
+    },
+    "hybrid_rerank": {
+      "p50_ms": 133.3,
+      "p95_ms": 246.2
+    }
+  },
+  "abstention": {
+    "threshold": -8.889,
+    "dev_f1": 0.727,
+    "abstain_f1": 0.769,
+    "n_test": 44
+  },
+  "misses_at_5": [
+    {
+      "q": "How do I convert a Python object into a JSON string?",
+      "expected": [
+        "json.dumps"
+      ],
+      "got": [
+        "json.loads",
+        "json.JSONDecoder.raw_decode",
+        "json.load"
+      ]
+    },
+    {
+      "q": "dictionary that supplies a default value for keys that are missing",
+      "expected": [
+        "collections.defaultdict"
+      ],
+      "got": [
+        "collections.OrderedDict.setdefault",
+        "inspect.BoundArguments.apply_defaults",
+        "collections.OrderedDict.fromkeys"
+      ]
+    },
+    {
+      "q": "queue you can append to and pop from both ends efficiently",
+      "expected": [
+        "collections.deque"
+      ],
+      "got": [
+        "asyncio.Queue.get",
+        "queue.Queue.get_nowait",
+        "asyncio.PriorityQueue.get"
+      ]
+    },
+    {
+      "q": "freeze some arguments of a function ahead of time",
+      "expected": [
+        "functools.partial"
+      ],
+      "got": [
+        "datetime.time",
+        "time.sleep",
+        "threading.Timer"
+      ]
+    },
+    {
+      "q": "walk a directory tree recursively for files matching a wildcard",
+      "expected": [
+        "pathlib.Path.rglob",
+        "pathlib.Path.glob"
+      ],
+      "got": [
+        "pathlib.PosixPath.move",
+        "pathlib.Path.move",
+        "pathlib.Path.copy"
+      ]
+    },
+    {
+      "q": "define a command-line flag for my script",
+      "expected": [
+        "argparse.ArgumentParser.add_argument"
+      ],
+      "got": [
+        "enum.Flag",
+        "argparse.BooleanOptionalAction",
+        "argparse.Action"
+      ]
+    },
+    {
+      "q": "add an item to a priority queue implemented as a list",
+      "expected": [
+        "heapq.heappush"
+      ],
+      "got": [
+        "asyncio.PriorityQueue.put",
+        "asyncio.PriorityQueue.put_nowait",
+        "queue.PriorityQueue.put_nowait"
+      ]
+    },
+    {
+      "q": "compute a SHA-256 digest of some bytes",
+      "expected": [
+        "hashlib.sha256"
+      ],
+      "got": [
+        "hashlib.sha3_256",
+        "hashlib.file_digest",
+        "hashlib.sha3_512"
+      ]
+    },
+    {
+      "q": "average of a list of numbers",
+      "expected": [
+        "statistics.mean"
+      ],
+      "got": [
+        "statistics.median",
+        "collections.Counter.most_common",
+        "statistics.harmonic_mean"
+      ]
+    },
+    {
+      "q": "make sure only one thread at a time enters a critical section",
+      "expected": [
+        "threading.Lock"
+      ],
+      "got": [
+        "threading.BoundedSemaphore.release",
+        "threading.Semaphore.release",
+        "threading.Timer.start"
+      ]
+    },
+    {
+      "q": "thread-safe first-in first-out container for passing work between threads",
+      "expected": [
+        "queue.Queue"
+      ],
+      "got": [
+        "threading.setprofile",
+        "asyncio.EventLoop.call_soon_threadsafe",
+        "asyncio.ProactorEventLoop.call_soon_threadsafe"
+      ]
+    },
+    {
+      "q": "unpack every member of a zip archive into a folder",
+      "expected": [
+        "zipfile.ZipFile.extractall"
+      ],
+      "got": [
+        "shutil.unpack_archive",
+        "zipfile.ZipFile.extract",
+        "zipfile.PyZipFile.extract"
+      ]
+    },
+    {
+      "q": "largest integer dividing two numbers evenly",
+      "expected": [
+        "math.gcd"
+      ],
+      "got": [
+        "math.floor",
+        "decimal.Decimal.next_minus",
+        "decimal.Context.next_minus"
+      ]
+    },
+    {
+      "q": "let the class pick values automatically for enumeration members",
+      "expected": [
+        "enum.auto"
+      ],
+      "got": [
+        "enum.unique",
+        "enum.Enum",
+        "signal.Handlers"
+      ]
+    },
+    {
+      "q": "ignore a specific exception inside a with block",
+      "expected": [
+        "contextlib.suppress"
+      ],
+      "got": [
+        "queue.SimpleQueue.get",
+        "queue.PriorityQueue.put",
+        "queue.Queue.put"
+      ]
+    },
+    {
+      "q": "serialize an arbitrary object into bytes",
+      "expected": [
+        "pickle.dumps"
+      ],
+      "got": [
+        "sqlite3.Connection.serialize",
+        "email.message.MIMEPart.as_bytes",
+        "email.message.Message.as_bytes"
+      ]
+    },
+    {
+      "q": "create a universally unique identifier at random",
+      "expected": [
+        "uuid.uuid4"
+      ],
+      "got": [
+        "random.Random.sample",
+        "random.sample",
+        "random.SystemRandom.sample"
+      ]
+    },
+    {
+      "q": "convert Python values into packed binary bytes",
+      "expected": [
+        "struct.pack"
+      ],
+      "got": [
+        "struct.Struct.pack_into",
+        "struct.pack_into",
+        "socket.inet_ntoa"
+      ]
+    },
+    {
+      "q": "print the traceback of the exception currently being handled",
+      "expected": [
+        "traceback.print_exc"
+      ],
+      "got": [
+        "traceback.print_exception",
+        "traceback.print_stack",
+        "traceback.TracebackException.format"
+      ]
+    },
+    {
+      "q": "tell the user about a deprecated feature at runtime",
+      "expected": [
+        "warnings.warn"
+      ],
+      "got": [
+        "warnings.deprecated",
+        "abc.abstractclassmethod",
+        "typing.override"
+      ]
+    },
+    {
+      "q": "temporarily replace an object with a mock during a unit test",
+      "expected": [
+        "unittest.mock.patch"
+      ],
+      "got": [
+        "unittest.mock.PropertyMock.attach_mock",
+        "unittest.mock.NonCallableMock.attach_mock",
+        "unittest.mock.NonCallableMagicMock.attach_mock"
+      ]
+    }
+  ]
+}

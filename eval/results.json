@@ -1,0 +1,314 @@
+{
+  "n_answerable": 73,
+  "n_unanswerable": 15,
+  "retrieval": {
+    "bm25": {
+      "recall@1": 0.219,
+      "recall@5": 0.507,
+      "recall@10": 0.644,
+      "mrr@10": 0.342,
+      "ndcg@10": 0.41
+    },
+    "dense": {
+      "recall@1": 0.26,
+      "recall@5": 0.644,
+      "recall@10": 0.781,
+      "mrr@10": 0.428,
+      "ndcg@10": 0.508
+    },
+    "hybrid": {
+      "recall@1": 0.26,
+      "recall@5": 0.63,
+      "recall@10": 0.822,
+      "mrr@10": 0.425,
+      "ndcg@10": 0.513
+    },
+    "hybrid_rerank": {
+      "recall@1": 0.342,
+      "recall@5": 0.685,
+      "recall@10": 0.822,
+      "mrr@10": 0.484,
+      "ndcg@10": 0.557
+    }
+  },
+  "latency": {
+    "bm25": {
+      "p50_ms": 2.3,
+      "p95_ms": 4.1
+    },
+    "dense": {
+      "p50_ms": 7.9,
+      "p95_ms": 8.5
+    },
+    "hybrid": {
+      "p50_ms": 11.0,
+      "p95_ms": 13.5
+    },
+    "hybrid_rerank": {
+      "p50_ms": 136.0,
+      "p95_ms": 245.9
+    }
+  },
+  "abstention": {
+    "threshold": -6.378,
+    "dev_f1": 0.833,
+    "abstain_f1": 0.8,
+    "n_test": 44
+  },
+  "misses_at_5": [
+    {
+      "q": "How do I convert a Python object into a JSON string?",
+      "expected": [
+        "json.dumps"
+      ],
+      "got": [
+        "json.JSONDecoder.raw_decode",
+        "json.loads",
+        "json.JSONEncoder.encode"
+      ]
+    },
+    {
+      "q": "dictionary that supplies a default value for keys that are missing",
+      "expected": [
+        "collections.defaultdict"
+      ],
+      "got": [
+        "collections.OrderedDict.setdefault",
+        "collections.OrderedDict.fromkeys",
+        "collections.Counter.fromkeys"
+      ]
+    },
+    {
+      "q": "queue you can append to and pop from both ends efficiently",
+      "expected": [
+        "collections.deque"
+      ],
+      "got": [
+        "heapq.heappushpop",
+        "queue.SimpleQueue.put_nowait",
+        "queue.SimpleQueue.get_nowait"
+      ]
+    },
+    {
+      "q": "freeze some arguments of a function ahead of time",
+      "expected": [
+        "functools.partial"
+      ],
+      "got": [
+        "time.sleep",
+        "asyncio.EventLoop.call_later",
+        "asyncio.SelectorEventLoop.call_later"
+      ]
+    },
+    {
+      "q": "walk a directory tree recursively for files matching a wildcard",
+      "expected": [
+        "pathlib.Path.rglob",
+        "pathlib.Path.glob"
+      ],
+      "got": [
+        "pathlib.PosixPath.match",
+        "pathlib.PurePath.match",
+        "pathlib.Path.match"
+      ]
+    },
+    {
+      "q": "define a command-line flag for my script",
+      "expected": [
+        "argparse.ArgumentParser.add_argument"
+      ],
+      "got": [
+        "argparse.ArgumentTypeError",
+        "argparse.ArgumentError",
+        "argparse.Namespace"
+      ]
+    },
+    {
+      "q": "add an item to a priority queue implemented as a list",
+      "expected": [
+        "heapq.heappush"
+      ],
+      "got": [
+        "asyncio.PriorityQueue.put",
+        "queue.PriorityQueue.put_nowait",
+        "asyncio.PriorityQueue.put_nowait"
+      ]
+    },
+    {
+      "q": "recursively copy an entire directory",
+      "expected": [
+        "shutil.copytree"
+      ],
+      "got": [
+        "shutil.move",
+        "pathlib.PosixPath.copy",
+        "pathlib.WindowsPath.copy"
+      ]
+    },
+    {
+      "q": "compute a SHA-256 digest of some bytes",
+      "expected": [
+        "hashlib.sha256"
+      ],
+      "got": [
+        "hashlib.sha3_256",
+        "hashlib.file_digest",
+        "hashlib.sha3_512"
+      ]
+    },
+    {
+      "q": "average of a list of numbers",
+      "expected": [
+        "statistics.mean"
+      ],
+      "got": [
+        "statistics.median",
+        "statistics.harmonic_mean",
+        "statistics.multimode"
+      ]
+    },
+    {
+      "q": "make sure only one thread at a time enters a critical section",
+      "expected": [
+        "threading.Lock"
+      ],
+      "got": [
+        "threading.BoundedSemaphore.acquire",
+        "threading.Semaphore.acquire",
+        "threading.Condition.notify"
+      ]
+    },
+    {
+      "q": "thread-safe first-in first-out container for passing work between threads",
+      "expected": [
+        "queue.Queue"
+      ],
+      "got": [
+        "threading.settrace",
+        "threading.setprofile",
+        "threading.settrace_all_threads"
+      ]
+    },
+    {
+      "q": "unpack every member of a zip archive into a folder",
+      "expected": [
+        "zipfile.ZipFile.extractall"
+      ],
+      "got": [
+        "shutil.unpack_archive",
+        "zipfile.ZipFile.extract",
+        "zipfile.PyZipFile.extract"
+      ]
+    },
+    {
+      "q": "largest integer dividing two numbers evenly",
+      "expected": [
+        "math.gcd"
+      ],
+      "got": [
+        "decimal.Decimal.next_minus",
+        "math.floor",
+        "decimal.Context.next_minus"
+      ]
+    },
+    {
+      "q": "make a copy of a nested object so inner objects are not shared",
+      "expected": [
+        "copy.deepcopy"
+      ],
+      "got": [
+        "pickle.Pickler.clear_memo",
+        "inspect.getclasstree",
+        "copy.replace"
+      ]
+    },
+    {
+      "q": "let the class pick values automatically for enumeration members",
+      "expected": [
+        "enum.auto"
+      ],
+      "got": [
+        "enum.unique",
+        "enum.Enum",
+        "signal.Handlers"
+      ]
+    },
+    {
+      "q": "ignore a specific exception inside a with block",
+      "expected": [
+        "contextlib.suppress"
+      ],
+      "got": [
+        "queue.SimpleQueue.get",
+        "queue.LifoQueue.put",
+        "queue.Queue.put"
+      ]
+    },
+    {
+      "q": "serialize an arbitrary object into bytes",
+      "expected": [
+        "pickle.dumps"
+      ],
+      "got": [
+        "sqlite3.Connection.serialize",
+        "email.message.MIMEPart.as_bytes",
+        "email.message.EmailMessage.as_bytes"
+      ]
+    },
+    {
+      "q": "encode binary data as base64 text",
+      "expected": [
+        "base64.b64encode"
+      ],
+      "got": [
+        "base64.encode",
+        "base64.encodebytes",
+        "base64.urlsafe_b64encode"
+      ]
+    },
+    {
+      "q": "print the traceback of the exception currently being handled",
+      "expected": [
+        "traceback.print_exc"
+      ],
+      "got": [
+        "traceback.print_exception",
+        "traceback.format_exception_only",
+        "traceback.TracebackException.format_exception_only"
+      ]
+    },
+    {
+      "q": "temporarily replace an object with a mock during a unit test",
+      "expected": [
+        "unittest.mock.patch"
+      ],
+      "got": [
+        "unittest.mock.PropertyMock.attach_mock",
+        "unittest.mock.NonCallableMock.attach_mock",
+        "unittest.mock.MagicMock.attach_mock"
+      ]
+    },
+    {
+      "q": "load settings from an INI style configuration file",
+      "expected": [
+        "configparser.ConfigParser.read"
+      ],
+      "got": [
+        "configparser.ConfigParser.write",
+        "configparser.RawConfigParser.write",
+        "configparser.ConfigParser.set"
+      ]
+    },
+    {
+      "q": "how many days are in a given month of a year",
+      "expected": [
+        "calendar.monthrange"
+      ],
+      "got": [
+        "calendar.HTMLCalendar.yeardatescalendar",
+        "calendar.Calendar.yeardatescalendar",
+        "calendar.TextCalendar.yeardatescalendar"
+      ]
+    }
+  ]
+}
