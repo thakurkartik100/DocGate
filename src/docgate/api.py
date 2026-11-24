@@ -7,11 +7,13 @@ import uuid
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, Request, Response
+import anthropic
+from fastapi import FastAPI, HTTPException, Request, Response
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_latest
 from pydantic import BaseModel, Field
 
 from .cache import TTLCache
+from . import generate
 from .corpus import load
 from .retrieval.pipeline import Retriever
 
@@ -21,11 +23,13 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")  # one JSON object
 
 REQS = Counter("docgate_requests_total", "Queries", ["outcome"])  # answered | abstained | cache_hit
 LAT = Histogram("docgate_query_seconds", "End-to-end query latency", buckets=(.01, .025, .05, .1, .25, .5, 1, 2.5, 5))
+GEN_LAT = Histogram("docgate_generation_seconds", "LLM answer-generation latency", buckets=(.5, 1, 2, 4, 8, 16, 32))
 
 
 class Query(BaseModel):
     q: str = Field(min_length=3, max_length=500)
     k: int = Field(default=5, ge=1, le=10)
+    generate: bool = False  # also write an LLM answer grounded in the passages (needs Anthropic credentials)
 
 
 class Passage(BaseModel):
@@ -38,6 +42,8 @@ class Answer(BaseModel):
     request_id: str
     answered: bool
     passages: list[Passage]
+    answer: str | None = None
+    citations: list[str] = []  # chunk ids the generated answer cites
     cached: bool = False
     latency_ms: float
 
@@ -67,18 +73,35 @@ def metrics():
 @app.post("/query", response_model=Answer)
 def query(body: Query, request: Request):
     t0, rid = time.perf_counter(), request.headers.get("x-request-id") or uuid.uuid4().hex[:12]
-    key = (body.q.strip().lower(), body.k)
+    key = (body.q.strip().lower(), body.k, body.generate)
     cached = app.state.cache.get(key)
     if cached is not None:
-        passages, answered, outcome = cached, bool(cached), "cache_hit"
+        (passages, gen), outcome = cached, "cache_hit"
+        answered = bool(passages)
     else:
         hits = app.state.retriever.search(body.q, k=body.k)
         answered = bool(hits) and hits[0].score >= app.state.threshold
         passages = [Passage(id=h.id, score=round(h.score, 3), snippet=h.text[:300]) for h in hits] if answered else []
-        app.state.cache.put(key, passages)
+        gen = _generate(body.q, hits) if answered and body.generate else None
+        app.state.cache.put(key, (passages, gen))
         outcome = "answered" if answered else "abstained"
     dt = time.perf_counter() - t0
     REQS.labels(outcome).inc()
     LAT.observe(dt)
     log.info(json.dumps({"event": "query", "request_id": rid, "outcome": outcome, "top": passages[0].id if passages else None, "ms": round(dt * 1000, 1)}))
-    return Answer(request_id=rid, answered=answered, passages=passages, cached=outcome == "cache_hit", latency_ms=round(dt * 1000, 1))
+    return Answer(request_id=rid, answered=answered, passages=passages, answer=gen and gen["text"],
+                  citations=gen["citations"] if gen else [], cached=outcome == "cache_hit", latency_ms=round(dt * 1000, 1))
+
+
+def _generate(question, hits) -> dict:
+    t0 = time.perf_counter()
+    try:
+        gen = generate.answer(question, [(h.id, h.text) for h in hits])
+    except TypeError as e:  # the SDK raises TypeError when no Anthropic credentials are configured
+        if "authentication" not in str(e):
+            raise
+        raise HTTPException(503, "Answer generation is not configured: set ANTHROPIC_API_KEY.") from e
+    except (anthropic.APIStatusError, anthropic.APIConnectionError) as e:
+        raise HTTPException(502, f"Answer generation failed upstream: {type(e).__name__}") from e
+    GEN_LAT.observe(time.perf_counter() - t0)
+    return gen
