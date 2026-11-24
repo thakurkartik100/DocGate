@@ -17,3 +17,21 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with: { name: eval-results, path: eval/results.json }
+
+  docker:
+    # Builds the image and smoke-tests the running container, so the Dockerfile is verified on every push.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t docgate .
+      - run: docker run -d -p 8000:8000 --name dg docgate
+      - name: smoke test
+        run: |
+          for i in $(seq 1 60); do curl -sf localhost:8000/health && break; sleep 5; done
+          curl -sf -X POST localhost:8000/query -H 'content-type: application/json' \
+            -d '{"q": "split a string using a regular expression", "k": 3}' | tee answer.json
+          curl -sf -X POST localhost:8000/query -H 'content-type: application/json' \
+            -d '{"q": "best pizza recipe"}' | tee abstain.json
+          python3 -c "import json; a=json.load(open('answer.json')); b=json.load(open('abstain.json')); assert a['answered'] and a['passages'][0]['id'].startswith('re.'), a; assert not b['answered'], b"
+      - if: failure()
+        run: docker logs dg

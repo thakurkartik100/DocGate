@@ -1,6 +1,8 @@
 FROM python:3.12-slim
 WORKDIR /app
 ENV PYTHONUNBUFFERED=1 HF_HOME=/models
+# pip's 15 s default read timeout fails on slow links and surfaces as a bogus ResolutionImpossible.
+ENV PIP_DEFAULT_TIMEOUT=120 PIP_RETRIES=10
 # CPU-only torch keeps the image ~1 GB smaller than the default CUDA wheel.
 RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
 COPY pyproject.toml ./
