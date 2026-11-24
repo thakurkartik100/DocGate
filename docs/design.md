@@ -37,5 +37,10 @@ Short architecture decision records. Each says what was chosen, why, and what it
 **Why:** retrieval quality can regress silently (a tokenizer change, a new model, a corpus rebuild) while all unit tests stay green. Treating the eval like a test makes that visible in the pull request.
 **Cost:** the eval takes about a minute and downloads models, so CI caches the Hugging Face directory.
 
+## 9. Generation with native citations
+**Why:** sending each chunk as a separate document block with citations enabled makes the API attach chunk ids to the sentences that use them, so grounding can be checked (did it cite the gold chunk?) rather than trusted. Generation only runs after retrieval passes the abstention threshold, so out-of-scope questions cost nothing.
+**Choices:** `claude-opus-5-5` at low effort (short factual answers; keeps latency and cost down), server-side refusal fallbacks, 503 when no credentials, 502 on upstream errors.
+**Cost:** adds seconds of latency and a per-query API cost, so it is opt-in per request (`generate: true`).
+
 ## Not done, on purpose
-LLM answer generation, authentication, rate limiting, multi-worker deployment, Kubernetes, tracing with OpenTelemetry. Each is a reasonable extension but none was needed to demonstrate the retrieval and evaluation work, and none has been tested.
+Authentication, rate limiting, multi-worker deployment, Kubernetes, tracing with OpenTelemetry. Each is a reasonable extension but none was needed to demonstrate the retrieval and evaluation work, and none has been tested.

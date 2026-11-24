@@ -22,11 +22,14 @@ The point of the project is not the search itself. It is the engineering around 
      top-1 score >= threshold ?  --no--> abstain (empty result)
                 | yes
           cited passages  ->  TTL/LRU cache -> JSON log + Prometheus metrics
+                |
+   optional: Claude writes a short answer citing chunk ids (generate=true)
 ```
 
 - **Corpus** (`src/docgate/corpus.py`): 3,096 chunks, one per public function, class or method in 66 stdlib modules, snapshotted to `data/corpus.jsonl`. Each chunk is prefixed with its module's one-line summary (a cheap form of contextual retrieval).
 - **Retrieval** (`src/docgate/retrieval/`): BM25 implemented from scratch with an identifier-aware tokenizer; dense retrieval with `all-MiniLM-L6-v2`; Reciprocal Rank Fusion; `ms-marco-MiniLM-L-6-v2` cross-encoder reranking.
 - **Abstention**: the top reranker score is compared to a threshold calibrated on a dev split and reported on a held-out test split.
+- **Generation** (`src/docgate/generate.py`): with `"generate": true`, Claude (`claude-opus-5-5`) answers from the retrieved chunks only, using the API's native citations so each answer lists the chunk ids it relied on. Abstained queries never reach the LLM.
 - **Service** (`src/docgate/api.py`): FastAPI, input validation, request IDs, structured JSON logs, Prometheus `/metrics`, `/health`.
 
 ## Results
@@ -51,7 +54,7 @@ These numbers come from a small, author-written test set. Read them as a regress
 ```bash
 pip install torch --index-url https://download.pytorch.org/whl/cpu
 pip install -e ".[dev]"
-pytest -q                                   # 11 tests, no model download needed
+pytest -q                                   # 16 tests, no model download or API key needed
 python eval/run_eval.py --gate              # full evaluation + quality gate (first run downloads ~150 MB of models)
 python -m uvicorn docgate.api:app --port 8000
 curl -X POST localhost:8000/query -H 'content-type: application/json' \
@@ -75,6 +78,6 @@ docs/               design.md, evaluation.md, interview-notes.md
 
 ## Known limitations
 
-- No answer generation. The service returns cited passages; it does not write an answer with an LLM. Adding that (and measuring faithfulness) is the obvious next step.
+- Answer generation is implemented and unit-tested, but has not yet been evaluated on real API calls. `eval/run_generation_eval.py` measures citation accuracy and faithfulness; it needs `ANTHROPIC_API_KEY` and costs a little money to run.
 - Test set is small and was written by one author, so labels favour one canonical answer per question (e.g. `re.split` is marked correct, `re.Pattern.split` is not). Recall is therefore understated.
 - Single-process cache and a single worker. Not load-balanced, no authentication, no rate limiting.

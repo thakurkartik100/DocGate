@@ -19,18 +19,18 @@ def _text(text, cited=()):
 
 
 def test_answer_collects_text_and_deduplicated_citations():
-    resp = NS(stop_reason="end_turn", model=generate.MODEL,
+    resp = NS(stop_reason="end_turn", model=generate.MODEL, usage=NS(input_tokens=900, output_tokens=40),
               content=[NS(type="thinking"), _text("Use json.dumps. ", ["json.dumps"]), _text("It returns a str.", ["json.dumps", "json.JSONEncoder"])])
     fake = FakeClient(resp)
     out = generate.answer("to json?", [("json.dumps", "json.dumps(obj)")], client=fake)
-    assert out == {"text": "Use json.dumps. It returns a str.", "citations": ["json.dumps", "json.JSONEncoder"], "refused": False, "model": generate.MODEL}
+    assert out == {"text": "Use json.dumps. It returns a str.", "citations": ["json.dumps", "json.JSONEncoder"], "refused": False, "model": generate.MODEL, "usage": {"input": 900, "output": 40}}
     doc = fake.sent["messages"][0]["content"][0]
     assert doc["title"] == "json.dumps" and doc["citations"] == {"enabled": True}
     assert fake.sent["fallbacks"] == "default" and generate.FALLBACK_BETA in fake.sent["betas"]
 
 
 def test_answer_reports_refusal_without_reading_content():
-    out = generate.answer("q", [("a", "b")], client=FakeClient(NS(stop_reason="refusal", model="m", content=None)))
+    out = generate.answer("q", [("a", "b")], client=FakeClient(NS(stop_reason="refusal", model="m", content=None, usage=NS(input_tokens=1, output_tokens=0))))
     assert out["refused"] and out["text"] is None
 
 

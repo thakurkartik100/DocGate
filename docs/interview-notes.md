@@ -27,7 +27,9 @@
 
 **What breaks under load?** One worker saturates at about 6 uncached requests/s because inference is CPU-bound and serialised. Fixes I would test: more workers (memory cost), a smaller reranker, batching, a GPU.
 
-**What would you add next?** LLM answer generation with citations and a faithfulness metric; fine-tuning the reranker on stdlib question/chunk pairs; a larger, independently labelled test set; OpenTelemetry tracing.
+**How do you know the generated answers are grounded?** Each chunk is a separate document with citations on, so every answer lists the chunk ids it used. `eval/run_generation_eval.py` measures how often it cites the gold chunk and has a judge check every claim against the passages. (Run it and put the real numbers here before claiming them.)
+
+**What would you add next?** Fine-tuning the reranker on stdlib question/chunk pairs; a larger, independently labelled test set; OpenTelemetry tracing.
 
 **Something that went wrong?** My first load test reported a 5 ms median at 8 clients because the generator repeated queries and hit the cache. I noticed the number was implausible, found the cause, and added a per-run nonce.
 
@@ -43,4 +45,5 @@ From postings found while researching (examples: [Senior AI Engineer, Agentic an
 | Docker | `Dockerfile`, built and smoke-tested in CI on every push |
 | Observability, monitoring | Prometheus metrics, JSON logs, request IDs |
 | Performance profiling, latency | sweep and load test |
-| Not covered | LLM generation, LangSmith/Langfuse/OpenTelemetry, Kubernetes, cloud deployment |
+| LLM integration, grounding, citations | `generate.py`, `eval/run_generation_eval.py` |
+| Not covered | LangSmith/Langfuse/OpenTelemetry, Kubernetes, cloud deployment |

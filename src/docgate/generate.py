@@ -33,11 +33,12 @@ def answer(question: str, passages: list[tuple[str, str]], client: anthropic.Ant
         output_config={"effort": "low"},  # short grounded Q&A; low effort keeps latency and cost down
         messages=[{"role": "user", "content": [*docs, {"type": "text", "text": question}]}],
     )
+    usage = {"input": resp.usage.input_tokens, "output": resp.usage.output_tokens}
     if resp.stop_reason == "refusal":
-        return {"text": None, "citations": [], "refused": True, "model": resp.model}
+        return {"text": None, "citations": [], "refused": True, "model": resp.model, "usage": usage}
     text, cited = [], []
     for block in resp.content:
         if block.type == "text":
             text.append(block.text)
             cited += [c.document_title for c in (block.citations or []) if getattr(c, "document_title", None)]
-    return {"text": "".join(text).strip(), "citations": list(dict.fromkeys(cited)), "refused": False, "model": resp.model}
+    return {"text": "".join(text).strip(), "citations": list(dict.fromkeys(cited)), "refused": False, "model": resp.model, "usage": usage}
