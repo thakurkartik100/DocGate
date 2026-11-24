@@ -59,7 +59,7 @@ curl -X POST localhost:8000/query -H 'content-type: application/json' \
 python loadtest/loadtest.py --concurrency 4 --seconds 20
 ```
 
-Docker files exist (`Dockerfile`, `docker-compose.yml`) but were **not built or run** while this project was written, because the Docker daemon was not running. Run `docker compose up --build` once and fix anything it reports before relying on them.
+Or with Docker: `docker compose up --build`. CI builds the image on every push, starts the container, and checks one answered and one abstained query against it. (On some networks pip inside the build container times out reaching PyPI; the Dockerfile raises pip's timeout and retries, and CI is the reference build.)
 
 ## Layout
 
@@ -78,4 +78,3 @@ docs/               design.md, evaluation.md, interview-notes.md
 - No answer generation. The service returns cited passages; it does not write an answer with an LLM. Adding that (and measuring faithfulness) is the obvious next step.
 - Test set is small and was written by one author, so labels favour one canonical answer per question (e.g. `re.split` is marked correct, `re.Pattern.split` is not). Recall is therefore understated.
 - Single-process cache and a single worker. Not load-balanced, no authentication, no rate limiting.
-- Docker has not been built or run. (The GitHub Actions workflow runs on every push and passes.)

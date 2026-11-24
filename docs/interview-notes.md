@@ -2,7 +2,7 @@
 
 ## Before any interview: do these three things yourself
 1. Run `pytest`, `python eval/run_eval.py --gate`, start the server and call it. If you cannot demo it, the project does not help you.
-2. Run `docker compose up --build` once. The Docker files were written but never executed. Only list Docker on your resume after this works.
+2. Look at the `docker` job in GitHub Actions: it builds the image and smoke-tests the running container on every push. Be ready to explain why the build runs in CI (local builds timed out reaching PyPI from inside the container).
 3. Read `src/docgate/` end to end (about 400 lines). An interviewer will ask you to explain any line. Also read the 88 questions in `data/golden.jsonl` and fix any label you disagree with, then re-run the eval and update the numbers in the README.
 
 ## 30-second pitch
@@ -40,7 +40,7 @@ From postings found while researching (examples: [Senior AI Engineer, Agentic an
 | Evaluation, golden dataset, regression testing, quality thresholds | `eval/`, `data/golden.jsonl` |
 | Python, FastAPI, REST APIs | `api.py` |
 | CI/CD with eval gates | `.github/workflows/ci.yml` (runs on every push, passing) |
-| Docker | `Dockerfile` (written, not yet built) |
+| Docker | `Dockerfile`, built and smoke-tested in CI on every push |
 | Observability, monitoring | Prometheus metrics, JSON logs, request IDs |
 | Performance profiling, latency | sweep and load test |
 | Not covered | LLM generation, LangSmith/Langfuse/OpenTelemetry, Kubernetes, cloud deployment |
