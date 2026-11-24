@@ -57,6 +57,7 @@ pip install -e ".[dev]"
 pytest -q                                   # 16 tests, no model download or API key needed
 python eval/run_eval.py --gate              # full evaluation + quality gate (first run downloads ~150 MB of models)
 python -m uvicorn docgate.api:app --port 8000
+# open http://localhost:8000 for the demo page
 curl -X POST localhost:8000/query -H 'content-type: application/json' \
      -d '{"q": "split a string using a regular expression", "k": 3}'
 python loadtest/loadtest.py --concurrency 4 --seconds 20

@@ -52,3 +52,8 @@ def test_request_id_propagates_and_metrics_exposed(client):
     assert r["request_id"] == "abc123"
     assert "docgate_requests_total" in client.get("/metrics").text
     assert client.get("/health").json()["status"] == "ok"
+
+
+def test_demo_page_served(client):
+    r = client.get("/")
+    assert r.status_code == 200 and "text/html" in r.headers["content-type"] and "DocGate" in r.text

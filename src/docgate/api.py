@@ -9,6 +9,7 @@ from pathlib import Path
 
 import anthropic
 from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi.responses import FileResponse
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_latest
 from pydantic import BaseModel, Field
 
@@ -57,6 +58,11 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="DocGate", version="0.1.0", lifespan=lifespan)
+
+
+@app.get("/", include_in_schema=False)
+def demo():
+    return FileResponse(Path(__file__).parent / "static" / "index.html")
 
 
 @app.get("/health")
