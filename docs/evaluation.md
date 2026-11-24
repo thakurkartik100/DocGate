@@ -80,4 +80,4 @@ Sampled from `eval/results.json`:
 
 ## CI quality gate
 
-`python eval/run_eval.py --gate` exits non-zero if the full pipeline falls below Recall@5 0.60, MRR@10 0.45 or abstention F1 0.75 (`GATES` in `eval/run_eval.py`). The thresholds sit a few points below the measured values so normal noise does not fail the build, but a real regression (for example breaking the tokenizer) does. The gate passed locally. The GitHub Actions workflow that runs it has not been executed.
+`python eval/run_eval.py --gate` exits non-zero if the full pipeline falls below Recall@5 0.60, MRR@10 0.45 or abstention F1 0.75 (`GATES` in `eval/run_eval.py`). The thresholds sit a few points below the measured values so normal noise does not fail the build, but a real regression (for example breaking the tokenizer) does. The gate passes locally and in GitHub Actions on every push.

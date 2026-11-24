@@ -1,5 +1,7 @@
 # DocGate
 
+[![ci](https://github.com/thakurkartik100/DocGate/actions/workflows/ci.yml/badge.svg)](https://github.com/thakurkartik100/DocGate/actions/workflows/ci.yml)
+
 A search service for the Python standard-library documentation. It answers a plain-English question with ranked, cited passages, or says "I don't know" when the question is out of scope. It is built the way a production retrieval service is: hybrid search, a measured evaluation harness, a CI gate that fails on quality regressions, metrics, caching and a load test.
 
 The point of the project is not the search itself. It is the engineering around it: every design choice below is backed by a number from `eval/`.
@@ -76,4 +78,4 @@ docs/               design.md, evaluation.md, interview-notes.md
 - No answer generation. The service returns cited passages; it does not write an answer with an LLM. Adding that (and measuring faithfulness) is the obvious next step.
 - Test set is small and was written by one author, so labels favour one canonical answer per question (e.g. `re.split` is marked correct, `re.Pattern.split` is not). Recall is therefore understated.
 - Single-process cache and a single worker. Not load-balanced, no authentication, no rate limiting.
-- Docker and the GitHub Actions workflow have not been executed.
+- Docker has not been built or run. (The GitHub Actions workflow runs on every push and passes.)

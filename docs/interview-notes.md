@@ -39,7 +39,7 @@ From postings found while researching (examples: [Senior AI Engineer, Agentic an
 | RAG, retrieval, hybrid search, reranking | `retrieval/` |
 | Evaluation, golden dataset, regression testing, quality thresholds | `eval/`, `data/golden.jsonl` |
 | Python, FastAPI, REST APIs | `api.py` |
-| CI/CD with eval gates | `.github/workflows/ci.yml` (written, not yet run) |
+| CI/CD with eval gates | `.github/workflows/ci.yml` (runs on every push, passing) |
 | Docker | `Dockerfile` (written, not yet built) |
 | Observability, monitoring | Prometheus metrics, JSON logs, request IDs |
 | Performance profiling, latency | sweep and load test |
